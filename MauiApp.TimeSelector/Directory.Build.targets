@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Project>
+
+	<ItemGroup Condition=" '$(_MauiTargetPlatformIsAndroid)' != 'True' ">
+		<Compile Remove="**\**\*.android.cs" />
+		<None Include="**\**\*.android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+		<Compile Remove="**\Android\**\*.cs" />
+		<None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(_MauiTargetPlatformIsWindows)' != 'True' ">
+		<Compile Remove="**\*.windows.cs" />
+		<None Include="**\*.windows.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+		<Compile Remove="**\Windows\**\*.cs" />
+		<None Include="**\Windows\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Compile Remove="bin\**;obj\**" />
+		<None Remove="bin\**;obj\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<MauiXaml Update="**\*.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+	</ItemGroup>
+	
+	<ItemGroup Condition=" '$(_MauiTargetPlatformIsAndroid)' == 'True' ">
+		<AndroidResource Include="Platform\Android\Resources\**\*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+		<MauiFont Include="Framework\Resources\Fonts\*" />
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<!-- Raw Assets -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+</Project>

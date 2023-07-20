@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+	x:Class="StedySoft.TimeSelector.Views.MainPage"
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:colors="clr-namespace:StedySoft.Maui.Framework"
+	xmlns:controls="clr-namespace:StedySoft.Maui.Framework.Controls"
+	xmlns:models="clr-namespace:StedySoft.TimeSelector"
+	xmlns:settings="clr-namespace:StedySoft.Maui.Framework"
+	x:Name="_parent"
+	Title="StedySoft TimeSelector">
+
+	<ContentPage.Content>
+
+		<ScrollView>
+
+			<VerticalStackLayout>
+
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,10,10,5">
+					<VerticalStackLayout
+						Style="{DynamicResource InnerStackLayout}">
+						<Label
+							Text="TimePicker:"/>
+						<Border>
+							<TimePicker
+								x:Name="timePicker"
+								Time="{Binding Source={x:Reference _parent}, Path=CurrentTimeSpan}"/>
+						</Border>
+					</VerticalStackLayout>
+				</Border>
+
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,5">
+					<VerticalStackLayout
+						Style="{DynamicResource InnerStackLayout}">
+						<Label
+							Text="TimeSelector:"/>
+						<Border>
+							<controls:MauiTimeSelector
+								x:Name="timeSelector"
+								Margin="{OnPlatform WinUI='0,-1', Android='0,0'}"
+								Time="{Binding Source={x:Reference _parent}, Path=CurrentTime}"/>
+						</Border>
+					</VerticalStackLayout>
+				</Border>
+
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,5">
+					<Grid
+						ColumnDefinitions="auto,*,auto">
+						<Label
+							Grid.Column="0"
+							Margin="0,0,5,0"
+							Text="DarkMode:"/>
+						<Label
+							Grid.Column="1"
+							TextColor="{colors:Color AccentColor}"
+							Text="{settings:SharedSettings DarkMode, Converter={StaticResource BoolToStringConverter}}"/>
+						<Switch
+							Grid.Column="2"
+							IsToggled="{settings:SharedSettings DarkMode, Mode=TwoWay}"/>
+					</Grid>
+				</Border>
+
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,5">
+					<Grid
+						ColumnDefinitions="auto,*,auto">
+						<Label
+							Grid.Column="0"
+							Margin="0,0,5,0"
+							Text="Use Shadows:"/>
+						<Label
+							Grid.Column="1"
+							TextColor="{colors:Color AccentColor}"
+							Text="{settings:SharedSettings UseShadows, Converter={StaticResource BoolToStringConverter}}"/>
+						<Switch
+							Grid.Column="2"
+							IsToggled="{settings:SharedSettings UseShadows, Mode=TwoWay}"/>
+					</Grid>
+				</Border>
+
+				<Border
+					Style="{DynamicResource FrameStyle}"
+					Margin="10,5,10,10">
+					<VerticalStackLayout
+						Style="{DynamicResource InnerStackLayout}">
+						<Label
+							Text="Font:"/>
+						<Border>
+							<CollectionView
+								x:Name="fontsCollectionView"
+								BackgroundColor="Transparent"
+								SelectionMode="Single"
+								SelectionChanged="FontSelectionChanged">
+								<CollectionView.ItemsLayout>
+									<GridItemsLayout
+										HorizontalItemSpacing="0"
+										Orientation="Vertical"
+										Span="1"
+										VerticalItemSpacing="0"/>
+								</CollectionView.ItemsLayout>
+								<CollectionView.ItemTemplate>
+									<DataTemplate>
+										<Grid>
+											<Label
+												x:DataType="models:FontItem"
+												Padding="5"
+												Text="{Binding Name}"
+												TextColor="{colors:Color TextColor}"
+												FontFamily="{Binding FontFamily}"
+												FontSize="16"
+												Shadow="{StaticResource BaseShadow}"/>
+										</Grid>
+									</DataTemplate>
+								</CollectionView.ItemTemplate>
+							</CollectionView>
+						</Border>
+					</VerticalStackLayout>
+				</Border>
+
+			</VerticalStackLayout>
+
+		</ScrollView>
+
+	</ContentPage.Content>
+</ContentPage>
